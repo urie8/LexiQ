@@ -11,6 +11,8 @@ const Home = () => {
       <Text>Dogwater</Text>
 
       <Link href="/mylists">My Lists</Link>
+      <Link href="/login">Login</Link>
+      <Link href="/register">Register</Link>
     </View>
   );
 };
