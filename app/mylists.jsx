@@ -1,21 +1,17 @@
-import { StyleSheet, Text, View, Image } from "react-native";
 import { Link } from "expo-router";
-import Logo from "../assets/book.png";
+import { StyleSheet, Text, View } from "react-native";
 
-const Home = () => {
+const Mylists = () => {
   return (
     <View style={styles.container}>
-      <Image source={Logo} style={styles.img} />
+      <Text styles={styles.title}>Mylists</Text>
 
-      <Text style={styles.title}>Home</Text>
-      <Text>Dogwater</Text>
-
-      <Link href="/mylists">My Lists</Link>
+      <Link href="/">Home</Link>
     </View>
   );
 };
 
-export default Home;
+export default Mylists;
 
 const styles = StyleSheet.create({
   container: {
