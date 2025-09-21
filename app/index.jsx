@@ -8,11 +8,12 @@ const Home = () => {
       <Image source={Logo} style={styles.img} />
 
       <Text style={styles.title}>Home</Text>
-      <Text>Dogwater</Text>
 
-      <Link href="/mylists">My Lists</Link>
       <Link href="/login">Login</Link>
+
       <Link href="/register">Register</Link>
+
+      <Link href="/profile">Profile page</Link>
     </View>
   );
 };
@@ -30,7 +31,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   img: {
-    height: 200,
-    width: 200,
+    height: 150,
+    width: 150,
   },
 });

@@ -1,17 +1,14 @@
-import { Link } from "expo-router";
 import { StyleSheet, Text, View } from "react-native";
 
-const Mylists = () => {
+const Create = () => {
   return (
     <View style={styles.container}>
-      <Text styles={styles.title}>Mylists</Text>
-
-      <Link href="/">Home</Link>
+      <Text style={styles.title}>Create</Text>
     </View>
   );
 };
 
-export default Mylists;
+export default Create;
 
 const styles = StyleSheet.create({
   container: {
@@ -22,9 +19,5 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: "bold",
     fontSize: 18,
-  },
-  img: {
-    height: 200,
-    width: 200,
   },
 });
