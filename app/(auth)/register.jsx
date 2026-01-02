@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, TextInput, Pressable } from "react-native";
+import { StyleSheet, Text, TextInput, ActivityIndicator } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Link } from "expo-router";
 import PrimaryButton from "../../components/PrimaryButton";
@@ -8,11 +8,25 @@ import { Button } from "react-native-web";
 const Register = () => {
   const [usernName, onChangeUsername] = React.useState("");
   const [passWord, onChangePassword] = React.useState("");
-  const apiUrl = process.env.EXPO_BASE_URL;
+  const [showRegisterButtonText, setShowRegisterButtonText] =
+    React.useState(true);
+  const [errorMessages, setErrorMessages] = React.useState([]);
+
+  const apiUrl = process.env.EXPO_PUBLIC_API_URL;
+
+  const errorAlert = () =>
+    Alert.alert("Please try again", "My Alert Msg", [
+      {
+        text: "Cancel",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel",
+      },
+      { text: "OK", onPress: () => console.log("OK Pressed") },
+    ]);
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch(`http://10.0.1.9:5048/api/Auth/register`, {
+      const response = await fetch(`${apiUrl}/Auth/register`, {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -21,11 +35,15 @@ const Register = () => {
         body: JSON.stringify({
           username: usernName,
           password: passWord,
-          email: "somerandomshit@mail.com",
+          email: "somerandombullshit@mail.com",
         }),
       });
 
       const data = await response.json();
+      if (data.succeeded == false) {
+        setErrorMessages(data.errors);
+        console.log(errorMessages.length);
+      }
       console.log("Response", data);
     } catch (error) {
       console.error("Error", error);
@@ -49,6 +67,7 @@ const Register = () => {
       />
       <PrimaryButton onPress={handleSubmit} style={styles.button}>
         <Text style={styles.buttonText}>Register</Text>
+        <ActivityIndicator />
       </PrimaryButton>
 
       <Link href="/login">Back to Login</Link>
