@@ -3,6 +3,7 @@ import { StyleSheet, Text, TextInput, ActivityIndicator } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Link } from "expo-router";
 import PrimaryButton from "../../components/PrimaryButton";
+import CustomErrorMessage from "../../components/CustomErrorMessage";
 import { Button } from "react-native-web";
 
 const Register = () => {
@@ -13,16 +14,6 @@ const Register = () => {
   const [errorMessages, setErrorMessages] = React.useState([]);
 
   const apiUrl = process.env.EXPO_PUBLIC_API_URL;
-
-  const errorAlert = () =>
-    Alert.alert("Please try again", "My Alert Msg", [
-      {
-        text: "Cancel",
-        onPress: () => console.log("Cancel Pressed"),
-        style: "cancel",
-      },
-      { text: "OK", onPress: () => console.log("OK Pressed") },
-    ]);
 
   const handleSubmit = async () => {
     try {
@@ -52,7 +43,8 @@ const Register = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Register a new user</Text>
+      <CustomErrorMessage></CustomErrorMessage>
+      <Text style={styles.title}>Create account</Text>
       <TextInput
         style={styles.input}
         onChangeText={onChangeUsername}
