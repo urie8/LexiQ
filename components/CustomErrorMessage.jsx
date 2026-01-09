@@ -1,16 +1,20 @@
-import { StyleSheet, Pressable } from "react-native";
-import { Colors } from "../constants/colors";
+import { View, Text, StyleSheet, FlatList, Pressable } from "react-native";
 import PrimaryButton from "./PrimaryButton";
-import { View, Text } from "react-native";
-import React from "react";
 
-const CustomErrorMessage = (props) => {
+const CustomErrorMessage = ({ errors }) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>CustomAlert</Text>
-      <PrimaryButton style={styles.btn}>
-        <Text style={styles.text}>OK</Text>
-      </PrimaryButton>
+      <Text style={styles.text}>There was a problem</Text>
+      <FlatList
+        scrollEnabled={false}
+        data={errors}
+        keyExtractor={({ id }) => id}
+        renderItem={({ item }) => (
+          <View>
+            <Text>{item.description}</Text>
+          </View>
+        )}
+      />
     </View>
   );
 };
@@ -19,11 +23,13 @@ export default CustomErrorMessage;
 
 const styles = StyleSheet.create({
   container: {
-    height: 200,
-    width: 200,
+    maxHeight: 125,
+    height: "auto",
+    width: 300,
     justifyContent: "center",
     alignItems: "center",
     padding: 16,
+    marginBottom: 70,
 
     backgroundColor: "#fff",
     borderWidth: 1,

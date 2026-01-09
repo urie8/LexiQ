@@ -4,7 +4,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Link } from "expo-router";
 import PrimaryButton from "../../components/PrimaryButton";
 import CustomErrorMessage from "../../components/CustomErrorMessage";
-import { Button } from "react-native-web";
 
 const Register = () => {
   const [usernName, onChangeUsername] = React.useState("");
@@ -43,7 +42,7 @@ const Register = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <CustomErrorMessage></CustomErrorMessage>
+      <CustomErrorMessage errors={errorMessages} />
       <Text style={styles.title}>Create account</Text>
       <TextInput
         style={styles.input}
@@ -59,7 +58,6 @@ const Register = () => {
       />
       <PrimaryButton onPress={handleSubmit} style={styles.button}>
         <Text style={styles.buttonText}>Register</Text>
-        <ActivityIndicator />
       </PrimaryButton>
 
       <Link href="/login">Back to Login</Link>
