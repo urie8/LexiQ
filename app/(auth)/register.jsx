@@ -1,21 +1,34 @@
 import React from "react";
-import { StyleSheet, Text, TextInput, ActivityIndicator } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  ActivityIndicator,
+  KeyboardAvoidingView,
+  Keyboard,
+  Platform,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Link } from "expo-router";
 import PrimaryButton from "../../components/PrimaryButton";
 import CustomErrorMessage from "../../components/CustomErrorMessage";
 
 const Register = () => {
-  const [usernName, onChangeUsername] = React.useState("");
-  const [passWord, onChangePassword] = React.useState("");
-  const [showRegisterButtonText, setShowRegisterButtonText] =
-    React.useState(true);
+  const [email, onChangeEmail] = React.useState("");
+  const [username, onChangeUsername] = React.useState("");
+  const [password, onChangePassword] = React.useState("");
+  const [showErrorMessages, setShowErrorMessages] = React.useState(false);
   const [errorMessages, setErrorMessages] = React.useState([]);
+  const [loading, setLoading] = React.useState(false);
+  const [disableRegisterButton, setDisableRegisterButton] =
+    React.useState(false);
 
   const apiUrl = process.env.EXPO_PUBLIC_API_URL;
 
   const handleSubmit = async () => {
     try {
+      setLoading(true);
+      setDisableRegisterButton(true);
       const response = await fetch(`${apiUrl}/Auth/register`, {
         method: "POST",
         headers: {
@@ -23,45 +36,67 @@ const Register = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          username: usernName,
-          password: passWord,
-          email: "somerandombullshit@mail.com",
+          email: email,
+          username: username,
+          password: password,
         }),
       });
 
       const data = await response.json();
       if (data.succeeded == false) {
         setErrorMessages(data.errors);
-        console.log(errorMessages.length);
+        setShowErrorMessages(true);
       }
       console.log("Response", data);
+      setLoading(false);
+      setDisableRegisterButton(false);
     } catch (error) {
       console.error("Error", error);
+      setLoading(false);
+      setDisableRegisterButton(false);
     }
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <CustomErrorMessage errors={errorMessages} />
+    <KeyboardAvoidingView
+      behavior="padding"
+      keyboardVerticalOffset={Platform.OS === "ios" ? -50 : 0}
+      style={styles.container}
+    >
+      <CustomErrorMessage
+        errors={errorMessages}
+        displayError={showErrorMessages}
+      />
       <Text style={styles.title}>Create account</Text>
       <TextInput
         style={styles.input}
+        onChangeText={onChangeEmail}
+        value={email}
+        placeholder="Email"
+      />
+      <TextInput
+        style={styles.input}
         onChangeText={onChangeUsername}
-        value={usernName}
+        value={username}
         placeholder="Username"
       />
       <TextInput
         style={styles.input}
         onChangeText={onChangePassword}
-        value={passWord}
+        value={password}
         placeholder="Password"
       />
-      <PrimaryButton onPress={handleSubmit} style={styles.button}>
-        <Text style={styles.buttonText}>Register</Text>
+      <PrimaryButton
+        onPress={handleSubmit}
+        style={styles.button}
+        setDisabled={disableRegisterButton}
+      >
+        {!loading && <Text style={styles.buttonText}>Register</Text>}
+        {loading && <ActivityIndicator />}
       </PrimaryButton>
 
       <Link href="/login">Back to Login</Link>
-    </SafeAreaView>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -76,17 +111,19 @@ const styles = StyleSheet.create({
   input: {
     height: 40,
     width: 200,
-    margin: 12,
+    margin: 7,
     borderWidth: 1,
     padding: 10,
   },
   title: {
     fontWeight: "bold",
     fontSize: 20,
+    marginBottom: 10,
   },
   button: {
     width: 200,
     alignItems: "center",
+    marginTop: 10,
   },
   buttonText: {
     fontWeight: "bold",

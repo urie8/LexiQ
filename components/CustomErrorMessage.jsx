@@ -1,9 +1,9 @@
-import { View, Text, StyleSheet, FlatList, Pressable } from "react-native";
+import { View, Text, StyleSheet, FlatList } from "react-native";
 import PrimaryButton from "./PrimaryButton";
 
-const CustomErrorMessage = ({ errors }) => {
+const CustomErrorMessage = ({ errors, displayError }) => {
   return (
-    <View style={styles.container}>
+    <View style={displayError ? styles.container : styles.dontDisplay}>
       <Text style={styles.text}>There was a problem</Text>
       <FlatList
         scrollEnabled={false}
@@ -29,8 +29,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 16,
-    marginBottom: 70,
-
+    marginBottom: 10,
     backgroundColor: "#fff",
     borderWidth: 1,
     borderColor: "#ff0000ff",
@@ -40,5 +39,8 @@ const styles = StyleSheet.create({
   },
   btn: {
     marginTop: "auto",
+  },
+  dontDisplay: {
+    display: "none",
   },
 });

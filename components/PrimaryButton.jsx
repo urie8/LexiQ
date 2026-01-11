@@ -1,9 +1,10 @@
 import { StyleSheet, Pressable } from "react-native";
 import { Colors } from "../constants/colors";
 
-const PrimaryButton = ({ style, ...props }) => {
+const PrimaryButton = ({ style, setDisabled, ...props }) => {
   return (
     <Pressable
+      disabled={setDisabled}
       style={({ pressed }) => [styles.btn, pressed && styles.pressed, style]}
       {...props}
     />
